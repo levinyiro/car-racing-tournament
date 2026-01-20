@@ -18,13 +18,13 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: car-racing-tournament-api
+      working-directory: api
     - name: Build
       run: dotnet build --no-restore
-      working-directory: car-racing-tournament-api
+      working-directory: api
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: car-racing-tournament-api
+      working-directory: api
 
   backend-deploy:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
@@ -39,16 +39,16 @@ jobs:
         dotnet-version: '6.0.x'
     - name: Restore NuGet packages
       run: dotnet restore
-      working-directory: car-racing-tournament-api
+      working-directory: api
     - name: Publish application
       run: dotnet publish -c Release -o publish --no-restore
-      working-directory: car-racing-tournament-api
+      working-directory: api
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'car-racing-tournament-api'
+        app-name: 'api'
         publish-profile: ${{ secrets.PUBLISH_PROFILE_API }}
-        package: './car-racing-tournament-api/publish'
+        package: './api/publish'
 
   webapp-check:
      runs-on: ubuntu-latest
