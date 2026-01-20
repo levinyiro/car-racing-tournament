@@ -5,7 +5,7 @@ if [[ $1 = init ]]
 then
     echo $1;
     dotnet tool install --global dotnet-ef;
-    export PATH="$PATH:/Users/'your user folder'/.dotnet/tools";
+    export PATH="$PATH:$HOME/.dotnet/tools";
     dotnet restore;
     dotnet ef;
 fi
