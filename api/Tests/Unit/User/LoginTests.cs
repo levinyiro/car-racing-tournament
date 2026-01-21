@@ -1,10 +1,10 @@
-﻿using car_racing_tournament_api.Data;
-using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Services;
+﻿using api.Data;
+using api.DTO;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
-namespace car_racing_tournament_api.Tests.Unit.User
+namespace api.Tests.Unit.User
 {
     [TestFixture]
     public class LoginTests

@@ -1,7 +1,7 @@
-﻿using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Models;
+﻿using api.DTO;
+using api.Models;
 
-namespace car_racing_tournament_api.Interfaces
+namespace api.Interfaces
 {
     public interface IRace
     {

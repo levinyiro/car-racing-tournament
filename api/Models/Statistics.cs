@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace car_racing_tournament_api.Models
+namespace api.Models
 {
     public class Statistics {
         public string? Name { get; set; }

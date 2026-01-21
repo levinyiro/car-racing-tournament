@@ -2,14 +2,14 @@
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using car_racing_tournament_api.Data;
-using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Interfaces;
-using car_racing_tournament_api.Models;
+using api.Data;
+using api.DTO;
+using api.Interfaces;
+using api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace car_racing_tournament_api.Services
+namespace api.Services
 {
     public class UserService : IUser
     {
@@ -39,14 +39,17 @@ namespace car_racing_tournament_api.Services
         public async Task<(bool IsSuccess, string? ErrorMessage)> Registration(RegistrationDto registrationDto)
         {
             registrationDto.Username = registrationDto.Username.Trim();
-            if (!Regex.IsMatch(registrationDto.Username, _configuration["Validation:NameRegexWithoutWhiteSpace"]))
+            var namePattern = _configuration.GetValue<string>("Validation:NameRegexWithoutWhiteSpace") ?? string.Empty;
+            if (!Regex.IsMatch(registrationDto.Username, namePattern))
                 return (false, _configuration["ErrorMessages:UserName"]);
 
             registrationDto.Email = registrationDto.Email.Trim().ToLower();
-            if (!Regex.IsMatch(registrationDto.Email, _configuration["Validation:EmailRegex"]))
+            var emailPattern = _configuration.GetValue<string>("Validation:EmailRegex") ?? string.Empty;
+            if (!Regex.IsMatch(registrationDto.Email, emailPattern))
                 return (false, _configuration["ErrorMessages:EmailFormat"]);
 
-            if (!Regex.IsMatch(registrationDto.Password, _configuration["Validation:PasswordRegex"]))
+            var passwordPattern = _configuration.GetValue<string>("Validation:PasswordRegex") ?? string.Empty;
+            if (!Regex.IsMatch(registrationDto.Password, passwordPattern))
                 return (false, _configuration["ErrorMessages:PasswordFormat"]);
 
             if (registrationDto.Password != registrationDto.PasswordAgain)
@@ -98,11 +101,13 @@ namespace car_racing_tournament_api.Services
         public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateUser(User user, UpdateUserDto updateUserDto)
         {
             updateUserDto.Username = updateUserDto.Username.Trim();
-            if (!Regex.IsMatch(updateUserDto.Username, _configuration["Validation:NameRegexWithoutWhiteSpace"]))
+            var updateNamePattern = _configuration.GetValue<string>("Validation:NameRegexWithoutWhiteSpace") ?? string.Empty;
+            if (!Regex.IsMatch(updateUserDto.Username, updateNamePattern))
                 return (false, _configuration["ErrorMessages:UserName"]);
 
             updateUserDto.Email = updateUserDto.Email.Trim().ToLower();
-            if (!Regex.IsMatch(updateUserDto.Email, _configuration["Validation:EmailRegex"]))
+            var updateEmailPattern = _configuration.GetValue<string>("Validation:EmailRegex") ?? string.Empty;
+            if (!Regex.IsMatch(updateUserDto.Email, updateEmailPattern))
                 return (false, _configuration["ErrorMessages:EmailFormat"]);
 
             if (user.Username != updateUserDto.Username && 
@@ -126,7 +131,8 @@ namespace car_racing_tournament_api.Services
             if (updatePasswordDto.Password != updatePasswordDto.PasswordAgain)
                 return (false, _configuration["ErrorMessages:PasswordsPass"]);
 
-            if (!Regex.IsMatch(updatePasswordDto.Password, _configuration["Validation:PasswordRegex"]))
+            var updatePasswordPattern = _configuration.GetValue<string>("Validation:PasswordRegex") ?? string.Empty;
+            if (!Regex.IsMatch(updatePasswordDto.Password, updatePasswordPattern))
                 return (false, _configuration["ErrorMessages:PasswordFormat"]);
 
             user.Password = HashPassword(updatePasswordDto.Password);
@@ -156,7 +162,8 @@ namespace car_racing_tournament_api.Services
                 new Claim(ClaimTypes.Name, user.Id.ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Secret").Value));
+            var secret = _configuration.GetValue<string>("Secret") ?? throw new InvalidOperationException("Configuration key 'Secret' is missing");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,

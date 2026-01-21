@@ -1,11 +1,11 @@
-﻿using car_racing_tournament_api.Data;
-using car_racing_tournament_api.Models;
-using car_racing_tournament_api.Services;
-using car_racing_tournament_api.DTO;
+﻿using api.Data;
+using api.Models;
+using api.Services;
+using api.DTO;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
-namespace car_racing_tournament_api.Tests.Unit
+namespace api.Tests.Unit
 {
     public class FavoriteTests
     {

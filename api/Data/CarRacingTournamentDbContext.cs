@@ -1,7 +1,7 @@
-﻿using car_racing_tournament_api.Models;
+﻿using api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace car_racing_tournament_api.Data
+namespace api.Data
 {
     public class CarRacingTournamentDbContext : DbContext
     {

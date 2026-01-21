@@ -1,8 +1,8 @@
 using AspNetCoreRateLimit;
-using car_racing_tournament_api.Data;
-using car_racing_tournament_api.Interfaces;
-using car_racing_tournament_api.Profiles;
-using car_racing_tournament_api.Services;
+using api.Data;
+using api.Interfaces;
+using api.Profiles;
+using api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -28,7 +28,7 @@ internal class Program
                         options.EnableStringComparisonTranslations();
                     });
             } else {
-                options.UseSqlServer(builder.Configuration["ConnectionString"]);
+                    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString") ?? throw new InvalidOperationException("Configuration key 'ConnectionString' is missing"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
         });
@@ -48,7 +48,7 @@ internal class Program
         builder.Services.AddScoped<ITeam, TeamService>();
         builder.Services.AddScoped<IRace, RaceService>();
         builder.Services.AddScoped<IFavorite, FavoriteService>();
-        builder.Services.AddScoped<car_racing_tournament_api.Interfaces.IResult, ResultService>();
+        builder.Services.AddScoped<api.Interfaces.IResult, ResultService>();
 
         builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
@@ -59,7 +59,7 @@ internal class Program
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                        .GetBytes(builder.Configuration.GetSection("Secret").Value)),
+                            .GetBytes(builder.Configuration.GetValue<string>("Secret") ?? throw new InvalidOperationException("Configuration key 'Secret' is missing"))),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
@@ -95,13 +95,18 @@ internal class Program
         builder.Services.AddInMemoryRateLimiting();
         builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
-        string deployedWebapplication = builder.Configuration["DeployedWebapplication"];
+            string? deployedWebapplication = builder.Configuration.GetValue<string>("DeployedWebapplication");
 
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("MyPolicy", builder =>
             {
-                builder.WithOrigins(deployedWebapplication, "http://localhost:4200")
+                    var origins = new List<string>();
+                    if (!string.IsNullOrEmpty(deployedWebapplication))
+                        origins.Add(deployedWebapplication);
+                    origins.Add("http://localhost:4200");
+
+                    builder.WithOrigins(origins.ToArray())
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

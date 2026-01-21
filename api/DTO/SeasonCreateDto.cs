@@ -1,6 +1,6 @@
-﻿using car_racing_tournament_api.Models;
+﻿using api.Models;
 
-namespace car_racing_tournament_api.DTO
+namespace api.DTO
 {
     public class SeasonCreateDto
     {

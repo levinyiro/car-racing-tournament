@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
-namespace car_racing_tournament_api.Models
+namespace api.Models
 {
     public class Driver
     {

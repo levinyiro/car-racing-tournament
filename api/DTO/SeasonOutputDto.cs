@@ -1,7 +1,7 @@
-﻿using car_racing_tournament_api.Models;
+﻿using api.Models;
 using System.Text.Json.Serialization;
 
-namespace car_racing_tournament_api.DTO
+namespace api.DTO
 {
     public class SeasonOutputDto
     {

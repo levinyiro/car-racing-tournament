@@ -1,11 +1,11 @@
-﻿using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Interfaces;
-using car_racing_tournament_api.Models;
+﻿using api.DTO;
+using api.Interfaces;
+using api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
-namespace car_racing_tournament_api.Controllers
+namespace api.Controllers
 {
     [Route("api/season")]
     [ApiController]

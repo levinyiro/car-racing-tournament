@@ -1,11 +1,11 @@
-﻿using car_racing_tournament_api.Data;
-using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Interfaces;
-using car_racing_tournament_api.Models;
+﻿using api.Data;
+using api.DTO;
+using api.Interfaces;
+using api.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 
-namespace car_racing_tournament_api.Services
+namespace api.Services
 {
     public class TeamService : ITeam
     {

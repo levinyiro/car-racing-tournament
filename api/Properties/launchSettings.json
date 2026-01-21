@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "car_racing_tournament_api": {
+    "api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

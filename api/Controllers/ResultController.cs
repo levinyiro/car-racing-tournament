@@ -1,9 +1,9 @@
-﻿using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Interfaces;
+﻿using api.DTO;
+using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace car_racing_tournament_api.Controllers
+namespace api.Controllers
 {
     [Route("api/result")]
     [ApiController]

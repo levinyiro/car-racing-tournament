@@ -1,17 +1,17 @@
 using AutoMapper;
-using car_racing_tournament_api.Controllers;
-using car_racing_tournament_api.Data;
-using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Models;
-using car_racing_tournament_api.Profiles;
-using car_racing_tournament_api.Services;
+using api.Controllers;
+using api.Data;
+using api.DTO;
+using api.Models;
+using api.Profiles;
+using api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
 using System.Security.Claims;
 
-namespace car_racing_tournament_api.Tests.Integration
+namespace api.Tests.Integration
 {
     [TestFixture]
     public class UserTests

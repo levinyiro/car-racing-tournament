@@ -1,4 +1,4 @@
-﻿namespace car_racing_tournament_api.DTO
+﻿namespace api.DTO
 {
     public class UpdateUserDto
     {

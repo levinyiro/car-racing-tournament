@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using car_racing_tournament_api.Data;
-using car_racing_tournament_api.DTO;
-using car_racing_tournament_api.Models;
-using car_racing_tournament_api.Profiles;
-using car_racing_tournament_api.Services;
+using api.Data;
+using api.DTO;
+using api.Models;
+using api.Profiles;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
-namespace car_racing_tournament_api.Tests.Unit
+namespace api.Tests.Unit
 {
     [TestFixture]
     public class DriverTests
