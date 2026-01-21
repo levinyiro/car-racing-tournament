@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Driver, Nationality } from 'app/models/driver';
 import { Season } from 'app/models/season';
 import { SeasonService } from 'app/services/season.service';
@@ -28,11 +28,11 @@ export class DriverAllComponent implements OnInit {
   isFetching: boolean = false;
   nationalities: Nationality[] = [];
 
-  inputName = new FormControl('');
-  inputRealName = new FormControl('');
-  inputNationality = new FormControl(null);
-  inputNumber = new FormControl(1);
-  inputActualTeamId = new FormControl(null);
+  inputName = new UntypedFormControl('');
+  inputRealName = new UntypedFormControl('');
+  inputNationality = new UntypedFormControl(null);
+  inputNumber = new UntypedFormControl(1);
+  inputActualTeamId = new UntypedFormControl(null);
 
   constructor(private seasonService: SeasonService) { }
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Result } from 'app/models/result';
 import { Season } from 'app/models/season';
 import { SeasonService } from 'app/services/season.service';
@@ -29,8 +29,8 @@ export class RaceResultComponent implements OnInit {
   error: string = '';
   modal: string = '';
   selectedResult?: Result;
-  inputTeamId = new FormControl('');
-  inputDriverId = new FormControl('');
+  inputTeamId = new UntypedFormControl('');
+  inputDriverId = new UntypedFormControl('');
 
   constructor(private seasonService: SeasonService) { }
 

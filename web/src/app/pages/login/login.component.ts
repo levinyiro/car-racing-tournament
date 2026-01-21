@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Location } from '@angular/common';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Login } from 'app/models/login';
 
 @Component({
@@ -13,8 +13,8 @@ import { Login } from 'app/models/login';
 export class LoginComponent implements OnInit {
   isFetching = false;
   error = "";
-  inputUsernameEmail = new FormControl('');
-  inputPassword = new FormControl('');
+  inputUsernameEmail = new UntypedFormControl('');
+  inputPassword = new UntypedFormControl('');
   
   constructor(private authService: AuthService, private router: Router, private location: Location) { }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Statistics } from 'app/models/statistics';
 import { SeasonService } from 'app/services/season.service';
@@ -10,7 +10,7 @@ import { SeasonService } from 'app/services/season.service';
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit {
-  inputSearch = new FormControl('');
+  inputSearch = new UntypedFormControl('');
   statistics?: Statistics;
   driverName?: string;
   isFetching?: boolean = false;
