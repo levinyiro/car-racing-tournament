@@ -5,9 +5,10 @@ import { Statistics } from 'app/models/statistics';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.scss']
+    selector: 'app-statistics',
+    templateUrl: './statistics.component.html',
+    styleUrls: ['./statistics.component.scss'],
+    standalone: false
 })
 export class StatisticsComponent implements OnInit {
   inputSearch = new UntypedFormControl('');

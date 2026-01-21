@@ -8,9 +8,10 @@ import { AuthService } from 'app/services/auth.service';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-season',
-  templateUrl: './season.component.html',
-  styleUrls: ['./season.component.scss']
+    selector: 'app-season',
+    templateUrl: './season.component.html',
+    styleUrls: ['./season.component.scss'],
+    standalone: false
 })
 export class SeasonComponent implements OnInit {
   id!: string;

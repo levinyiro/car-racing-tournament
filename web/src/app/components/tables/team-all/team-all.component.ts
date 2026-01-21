@@ -4,9 +4,10 @@ import { Team } from 'app/models/team';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-team-all',
-  templateUrl: './team-all.component.html',
-  styleUrls: ['./team-all.component.scss']
+    selector: 'app-team-all',
+    templateUrl: './team-all.component.html',
+    styleUrls: ['./team-all.component.scss'],
+    standalone: false
 })
 export class TeamAllComponent implements OnInit {
   @Input()

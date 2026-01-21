@@ -9,9 +9,10 @@ import { SeasonService } from '../../services/season.service';
 import { User } from 'app/models/user';
 
 @Component({
-  selector: 'app-seasons',
-  templateUrl: './seasons.component.html',
-  styleUrls: ['./seasons.component.scss']
+    selector: 'app-seasons',
+    templateUrl: './seasons.component.html',
+    styleUrls: ['./seasons.component.scss'],
+    standalone: false
 })
 export class SeasonsComponent implements OnInit {
   seasons: Season[] = [];

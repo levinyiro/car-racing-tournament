@@ -5,9 +5,10 @@ import { Season } from 'app/models/season';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-driver-all',
-  templateUrl: './driver-all.component.html',
-  styleUrls: ['./driver-all.component.scss']
+    selector: 'app-driver-all',
+    templateUrl: './driver-all.component.html',
+    styleUrls: ['./driver-all.component.scss'],
+    standalone: false
 })
 export class DriverAllComponent implements OnInit {
   @Input()
