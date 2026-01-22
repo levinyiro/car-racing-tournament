@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'app/models/user';
 import { AuthService } from 'app/services/auth.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    standalone: false
 })
 export class SettingsComponent implements OnInit {
   user?: User;
@@ -16,13 +17,13 @@ export class SettingsComponent implements OnInit {
   isFetching: boolean = false;
   modal: string = '';
 
-  inputUsername = new FormControl('');
-  inputEmail = new FormControl('');
+  inputUsername = new UntypedFormControl('');
+  inputEmail = new UntypedFormControl('');
 
-  updatePasswordForm = new FormGroup({
-    inputPasswordOld: new FormControl(''),
-    inputPassword: new FormControl(''),
-    inputPasswordAgain: new FormControl(''),
+  updatePasswordForm = new UntypedFormGroup({
+    inputPasswordOld: new UntypedFormControl(''),
+    inputPassword: new UntypedFormControl(''),
+    inputPasswordAgain: new UntypedFormControl(''),
   });
 
   constructor(private authService: AuthService, private router: Router) { }

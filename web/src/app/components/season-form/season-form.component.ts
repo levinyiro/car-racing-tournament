@@ -3,9 +3,10 @@ import { Season } from 'app/models/season';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-season-form',
-  templateUrl: './season-form.component.html',
-  styleUrls: ['./season-form.component.scss']
+    selector: 'app-season-form',
+    templateUrl: './season-form.component.html',
+    styleUrls: ['./season-form.component.scss'],
+    standalone: false
 })
 export class SeasonFormComponent implements OnInit {
   @Input()

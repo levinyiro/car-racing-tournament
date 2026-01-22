@@ -1,78 +1,90 @@
-<app-modal type="loading" *ngIf="isFetching"></app-modal>
+@if (isFetching) {
+  <app-modal type="loading"></app-modal>
+}
 
 <div class="container-fluid">
-    <div class="row mt-4">
-        <div class="col">
-            <h1>Seasons</h1>
-        </div>
+  <div class="row mt-4">
+    <div class="col">
+      <h1>Seasons</h1>
     </div>
+  </div>
 
-    <div class="row">
-        <div *ngIf="isLoggedIn" class="col-md-5 col-sm-5 mb-2">
-            <input type="checkbox" class="btn-check d-flex align-items-center" id="btn-check-favorite"
-                autocomplete="off" [formControl]="checkBoxFavorites" (change)="onFilter()">
-            <label class="btn btn-outline-danger btn-sm me-2" for="btn-check-favorite" title="Favorite filter">
-                <i class="bi bi-heart align-middle"></i>
-            </label>
-
-            <input type="checkbox" class="btn-check" id="btn-check-admin" autocomplete="off"
-                [formControl]="checkBoxAdmin" (change)="onFilter()">
-            <label class="btn btn-outline-primary btn-sm me-2" for="btn-check-admin">
-                Admin
-            </label>
-
-            <input type="checkbox" class="btn-check" id="btn-check-moderator" autocomplete="off"
-                [formControl]="checkBoxModerator" (change)="onFilter()">
-            <label class="btn btn-outline-primary btn-sm me-2" for="btn-check-moderator">
-                Moderator
-            </label>
-        </div>
-        <div class="col-md-5 col-sm-7 d-flex mb-4" [ngClass]="isLoggedIn ? 'offset-md-2' : ''">
-            <div class="input-group input-group-sm me-2">
-                <span class="input-group-text">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input type="text" class="form-control" id="name" [formControl]="search"
-                    placeholder="Start typing to filter..." (keyup)="onFilter()">
-            </div>
-            <button class="btn btn-outline-primary btn-sm me-2" (mouseup)="onFetchData()" title="Refresh">
-                <i class="bi bi-arrow-clockwise align-middle"></i>
-            </button>
-            <button *ngIf="isLoggedIn" class="btn btn-sm btn-outline-success" (mouseup)="setModal(true)"
-                title="Create season">
-                <i class="bi bi-plus-lg align-middle"></i>
-            </button>
-        </div>
+  <div class="row">
+    @if (isLoggedIn) {
+      <div class="col-md-5 col-sm-5 mb-2">
+        <input type="checkbox" class="btn-check d-flex align-items-center" id="btn-check-favorite"
+          autocomplete="off" [formControl]="checkBoxFavorites" (change)="onFilter()">
+        <label class="btn btn-outline-danger btn-sm me-2" for="btn-check-favorite" title="Favorite filter">
+          <i class="bi bi-heart align-middle"></i>
+        </label>
+        <input type="checkbox" class="btn-check" id="btn-check-admin" autocomplete="off"
+          [formControl]="checkBoxAdmin" (change)="onFilter()">
+        <label class="btn btn-outline-primary btn-sm me-2" for="btn-check-admin">
+          Admin
+        </label>
+        <input type="checkbox" class="btn-check" id="btn-check-moderator" autocomplete="off"
+          [formControl]="checkBoxModerator" (change)="onFilter()">
+        <label class="btn btn-outline-primary btn-sm me-2" for="btn-check-moderator">
+          Moderator
+        </label>
+      </div>
+    }
+    <div class="col-md-5 col-sm-7 d-flex mb-4" [ngClass]="isLoggedIn ? 'offset-md-2' : ''">
+      <div class="input-group input-group-sm me-2">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control" id="name" [formControl]="search"
+          placeholder="Start typing to filter..." (keyup)="onFilter()">
+      </div>
+      <button class="btn btn-outline-primary btn-sm me-2" (mouseup)="onFetchData()" title="Refresh">
+        <i class="bi bi-arrow-clockwise align-middle"></i>
+      </button>
+      @if (isLoggedIn) {
+        <button class="btn btn-sm btn-outline-success" (mouseup)="setModal(true)"
+          title="Create season">
+          <i class="bi bi-plus-lg align-middle"></i>
+        </button>
+      }
     </div>
+  </div>
 
-    <div class="container-fluid">
-        <div class="row row-box mb-3 d-flex align-items-center" *ngFor="let season of seasons" (mouseup)="navigateSeason(season.id)">
-            <div class="col-10 col-md-4 d-flex align-items-center fw-semibold">
-                {{ season.name }}<span *ngIf="season.isArchived" class="gold-tag ms-2">archived</span>
-            </div>
-            <div class="col-md-3 d-none d-md-flex">
-                {{ getFormattedDate(season.createdAt) }}
-            </div>
-            <div class="col-md-2 d-none d-md-flex">
-                Made by {{ getAdminUsername(season) }}
-            </div>
-            <div class="col-2 col-md-1 d-flex align-items-center text-pink ps-3" [ngClass]="isLoggedIn ? 'favorite' : ''"
-            (mouseup)="setFavorite($event, season); $event.stopPropagation()">
-                <i class="bi me-2" [ngClass]="isFavorite(season) ? 'bi-heart-fill' : 'bi-heart'"></i>
-                {{ season.favorite }}
-            </div>
-            <div class="col-md-2 d-none d-md-flex">
-                <button class="btn btn-primary btn-sm">Explore</button>
-            </div>
-        </div>
+  <div class="container-fluid">
+    @for (season of seasons; track season) {
+      <div class="row row-box mb-3 d-flex align-items-center" (mouseup)="navigateSeason(season.id)">
+        <div class="col-10 col-md-4 d-flex align-items-center fw-semibold">
+          {{ season.name }}@if (season.isArchived) {
+          <span class="gold-tag ms-2">archived</span>
+        }
+      </div>
+      <div class="col-md-3 d-none d-md-flex">
+        {{ getFormattedDate(season.createdAt) }}
+      </div>
+      <div class="col-md-2 d-none d-md-flex">
+        Made by {{ getAdminUsername(season) }}
+      </div>
+      <div class="col-2 col-md-1 d-flex align-items-center text-pink ps-3" [ngClass]="isLoggedIn ? 'favorite' : ''"
+        (mouseup)="setFavorite($event, season); $event.stopPropagation()">
+        <i class="bi me-2" [ngClass]="isFavorite(season) ? 'bi-heart-fill' : 'bi-heart'"></i>
+        {{ season.favorite }}
+      </div>
+      <div class="col-md-2 d-none d-md-flex">
+        <button class="btn btn-primary btn-sm">Explore</button>
+      </div>
     </div>
-
-    <div class="d-flex justify-content-center mt-5" *ngIf="!isFetching && seasons?.length === 0">
-        <h2>We didn't find any seasons here</h2>
-    </div>
+  }
 </div>
 
-<app-modal type="form" *ngIf="modal">
+@if (!isFetching && seasons?.length === 0) {
+  <div class="d-flex justify-content-center mt-5">
+    <h2>We didn't find any seasons here</h2>
+  </div>
+}
+</div>
+
+@if (modal) {
+  <app-modal type="form">
     <app-season-form title="Create new season" executeButtonText="Add" (onCloseModalEmitter)="setModal(false)"
-        (onFetchDataEmitter)="onFetchData()"></app-season-form>
-</app-modal>
+    (onFetchDataEmitter)="onFetchData()"></app-season-form>
+  </app-modal>
+}

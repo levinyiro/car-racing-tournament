@@ -1,96 +1,110 @@
 <div class="row row-header my-3 d-flex align-items-center">
-    <div [ngClass]="hasPermission && !season.isArchived ? 'col-2' : 'col-3'">Race</div>
-    <div class="col-lg-2 d-none d-lg-block">Date</div>
-    <div class="col-4">Winner</div>
-    <div [ngClass]="hasPermission && !season.isArchived ? 'col-4 col-lg-2' : 'col-5 col-lg-3'">Team</div>
-    <div *ngIf="hasPermission && !season.isArchived" class="col-2">
-        <button class="btn btn-success btn-sm" (mouseup)="openModal('createRace')">Add race</button>
+  <div [ngClass]="hasPermission && !season.isArchived ? 'col-2' : 'col-3'">Race</div>
+  <div class="col-lg-2 d-none d-lg-block">Date</div>
+  <div class="col-4">Winner</div>
+  <div [ngClass]="hasPermission && !season.isArchived ? 'col-4 col-lg-2' : 'col-5 col-lg-3'">Team</div>
+  @if (hasPermission && !season.isArchived) {
+    <div class="col-2">
+      <button class="btn btn-success btn-sm" (mouseup)="openModal('createRace')">Add race</button>
     </div>
+  }
 </div>
-<div class="row row-box mb-3 d-flex align-items-center" *ngFor="let race of raceAll">
+@for (race of raceAll; track race) {
+  <div class="row row-box mb-3 d-flex align-items-center">
     <div class="d-flex align-items-center" [ngClass]="hasPermission && !season.isArchived ? 'col-2' : 'col-3'">
-        <div class="team-color" [ngStyle]="{'background-color': race.winner.team.color}"></div>
-        <div class="d-none d-lg-flex">
-            {{ race.name }}
-        </div>
-        <div class="d-lg-none">
-            {{ race.name.substring(0, 3).toUpperCase() }}
-        </div>
+      <div class="team-color" [ngStyle]="{'background-color': race.winner.team.color}"></div>
+      <div class="d-none d-lg-flex">
+        {{ race.name }}
+      </div>
+      <div class="d-lg-none">
+        {{ race.name.substring(0, 3).toUpperCase() }}
+      </div>
     </div>
     <div class="col-lg-2 d-none d-lg-block">
-        {{ race.dateTime }}
+      {{ race.dateTime }}
     </div>
     <div class="col-4">
-        {{ race.winner.name }}
+      {{ race.winner.name }}
     </div>
     <div [ngClass]="hasPermission && !season.isArchived ? 'col-4 col-lg-2' : 'col-5 col-lg-3'">
-        {{ race.winner.team.name }}
+      {{ race.winner.team.name }}
     </div>
-    <div *ngIf="hasPermission && !season.isArchived" class="col-2">
+    @if (hasPermission && !season.isArchived) {
+      <div class="col-2">
         <div class="row">
-            <div class="col-sm-6 my-1">
-                <button class="btn btn-primary btn-sm me-2" (mouseup)="openModal('updateRace', race)" title="Modify">
-                    <i class="bi bi-pen"></i>
-                </button>
-            </div>
-            <div class="col-sm-6 my-1">
-                <button class="btn btn-danger btn-sm" (mouseup)="openModal('deleteRace', race)" title="Delete">
-                    <i class="bi bi-trash3"></i>
-                </button>
-            </div>
+          <div class="col-sm-6 my-1">
+            <button class="btn btn-primary btn-sm me-2" (mouseup)="openModal('updateRace', race)" title="Modify">
+              <i class="bi bi-pen"></i>
+            </button>
+          </div>
+          <div class="col-sm-6 my-1">
+            <button class="btn btn-danger btn-sm" (mouseup)="openModal('deleteRace', race)" title="Delete">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}
 
-<div class="d-flex justify-content-center mt-5" *ngIf="raceAll?.length === 0">
+@if (raceAll?.length === 0) {
+  <div class="d-flex justify-content-center mt-5">
     <h2>We didn't find any race here</h2>
-</div>
+  </div>
+}
 
-<app-modal type="form" *ngIf="modal === 'createRace' || modal === 'updateRace'">
+@if (modal === 'createRace' || modal === 'updateRace') {
+  <app-modal type="form">
     <h1>{{ modal === 'createRace' ? 'Add new' : 'Modify' }} race</h1>
     <form #postForm="ngForm" (ngSubmit)="selectedRace == undefined ? this.createRace(postForm) : this.updateRace(selectedRace!.id, postForm)">
-        <div class="mb-3">
-            <label for="inputName" class="form-label">Name</label>
-            <input required type="text" class="form-control" id="inputName" [ngModel]="selectedRace?.name" name="name" #name="ngModel" [class.is-invalid]="!name.valid && name.touched" [class.is-valid]="name.valid">
-            <div class="invalid-feedback">Name is required</div>
+      <div class="mb-3">
+        <label for="inputName" class="form-label">Name</label>
+        <input required type="text" class="form-control" id="inputName" [ngModel]="selectedRace?.name" name="name" #name="ngModel" [class.is-invalid]="!name.valid && name.touched" [class.is-valid]="name.valid">
+        <div class="invalid-feedback">Name is required</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="inputDate" class="form-label">Date</label>
+          <input required type="date" class="form-control" id="inputDate" [ngModel]="selectedRace === undefined ? getCurrentDate() : selectedRace.dateTime!.toString().split(' ')[0]" name="date" #date="ngModel">
         </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="inputDate" class="form-label">Date</label>
-                <input required type="date" class="form-control" id="inputDate" [ngModel]="selectedRace === undefined ? getCurrentDate() : selectedRace.dateTime!.toString().split(' ')[0]" name="date" #date="ngModel">
-            </div>
-            <div class="col-sm-6">
-                <label for="inputTime" class="form-label">Time</label>
-                <input required type="time" class="form-control" id="inputTime" [ngModel]="selectedRace === undefined ? getCurrentTime() : selectedRace.dateTime!.toString().split(' ')[1]" name="time" #time="ngModel">
-            </div>
+        <div class="col-sm-6">
+          <label for="inputTime" class="form-label">Time</label>
+          <input required type="time" class="form-control" id="inputTime" [ngModel]="selectedRace === undefined ? getCurrentTime() : selectedRace.dateTime!.toString().split(' ')[1]" name="time" #time="ngModel">
         </div>
-        <div class="mb-3">
+      </div>
+      <div class="mb-3">
+      </div>
+      <div class="row d-flex text-center">
+        <div class="col-6">
+          <button class="btn btn-outline-danger btn-sm btn-block" (mouseup)="closeModal()">Cancel</button>
         </div>
-
-        <div class="row d-flex text-center">
-            <div class="col-6">
-                <button class="btn btn-outline-danger btn-sm btn-block" (mouseup)="closeModal()">Cancel</button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-primary btn-sm btn-block">
-                    {{ modal === 'createRace' ? 'Add' : 'Modify' }}
-                </button>
-            </div>
+        <div class="col-6">
+          <button class="btn btn-primary btn-sm btn-block">
+            {{ modal === 'createRace' ? 'Add' : 'Modify' }}
+          </button>
         </div>
+      </div>
     </form>
-</app-modal>
+  </app-modal>
+}
 
-<app-modal type="form" *ngIf="modal === 'deleteRace'">
+@if (modal === 'deleteRace') {
+  <app-modal type="form">
     <app-verify-form
-        class="text-center"
-        title='Delete "{{ selectedRace!.name }}" race'
-        executeButtonText="Delete"
-        (executionEmitter)="deleteRace(selectedRace!.id)"
-        (closeModalEmitter)="closeModal()"
+      class="text-center"
+      title='Delete "{{ selectedRace!.name }}" race'
+      executeButtonText="Delete"
+      (executionEmitter)="deleteRace(selectedRace!.id)"
+      (closeModalEmitter)="closeModal()"
     ></app-verify-form>
-</app-modal>
+  </app-modal>
+}
 
-<app-modal type="loading" *ngIf="isFetching"></app-modal>
+@if (isFetching) {
+  <app-modal type="loading"></app-modal>
+}
 
-<app-modal type="error" *ngIf="error" [text]="error" (onCloseModalEmitter)="removeError()"></app-modal>
+@if (error) {
+  <app-modal type="error" [text]="error" (onCloseModalEmitter)="removeError()"></app-modal>
+}

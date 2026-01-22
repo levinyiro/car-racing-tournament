@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,35 +23,28 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    HeaderComponent,
-    SeasonsComponent,
-    RegistrationComponent,
-    SeasonComponent,
-    ModalComponent,
-    DriverAllComponent,
-    DriverResultComponent,
-    TeamAllComponent,
-    TeamResultComponent,
-    RaceAllComponent,
-    RaceResultComponent,
-    SeasonFormComponent,
-    VerifyFormComponent,
-    SettingsComponent,
-    StatisticsComponent,
-    NotFoundComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        HeaderComponent,
+        SeasonsComponent,
+        RegistrationComponent,
+        SeasonComponent,
+        ModalComponent,
+        DriverAllComponent,
+        DriverResultComponent,
+        TeamAllComponent,
+        TeamResultComponent,
+        RaceAllComponent,
+        RaceResultComponent,
+        SeasonFormComponent,
+        VerifyFormComponent,
+        SettingsComponent,
+        StatisticsComponent,
+        NotFoundComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

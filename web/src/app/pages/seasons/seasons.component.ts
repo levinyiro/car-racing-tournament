@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
 import { Subscription } from 'rxjs';
@@ -9,9 +9,10 @@ import { SeasonService } from '../../services/season.service';
 import { User } from 'app/models/user';
 
 @Component({
-  selector: 'app-seasons',
-  templateUrl: './seasons.component.html',
-  styleUrls: ['./seasons.component.scss']
+    selector: 'app-seasons',
+    templateUrl: './seasons.component.html',
+    styleUrls: ['./seasons.component.scss'],
+    standalone: false
 })
 export class SeasonsComponent implements OnInit {
   seasons: Season[] = [];
@@ -21,14 +22,14 @@ export class SeasonsComponent implements OnInit {
   subscription!: Subscription;
   isFetching = false;
   error = "";
-  search = new FormControl('');
+  search = new UntypedFormControl('');
   isLoggedIn = false;
   modal: boolean = false;
   user?: User;
 
-  checkBoxFavorites = new FormControl('');
-  checkBoxAdmin = new FormControl('');
-  checkBoxModerator = new FormControl('');
+  checkBoxFavorites = new UntypedFormControl('');
+  checkBoxAdmin = new UntypedFormControl('');
+  checkBoxModerator = new UntypedFormControl('');
 
   constructor(
     private seasonService: SeasonService, 

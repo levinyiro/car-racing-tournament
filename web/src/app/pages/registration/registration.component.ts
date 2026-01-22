@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.scss'],
+    standalone: false
 })
 export class RegistrationComponent implements OnInit {
   isFetching = false;
   error = '';
   success = '';
-  inputUsername = new FormControl('');
-  inputEmail = new FormControl('');
-  inputPassword = new FormControl('');
-  inputPasswordAgain = new FormControl('');
+  inputUsername = new UntypedFormControl('');
+  inputEmail = new UntypedFormControl('');
+  inputPassword = new UntypedFormControl('');
+  inputPasswordAgain = new UntypedFormControl('');
 
   constructor(private authService: AuthService, private router: Router) { }
 

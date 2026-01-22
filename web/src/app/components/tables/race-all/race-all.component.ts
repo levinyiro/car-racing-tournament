@@ -4,9 +4,10 @@ import { Season } from 'app/models/season';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-race-all',
-  templateUrl: './race-all.component.html',
-  styleUrls: ['./race-all.component.scss']
+    selector: 'app-race-all',
+    templateUrl: './race-all.component.html',
+    styleUrls: ['./race-all.component.scss'],
+    standalone: false
 })
 export class RaceAllComponent implements OnInit {
   @Input()

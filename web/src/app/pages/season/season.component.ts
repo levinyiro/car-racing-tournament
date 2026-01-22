@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Permission } from 'app/models/permission';
 import { Season } from 'app/models/season';
@@ -8,9 +8,10 @@ import { AuthService } from 'app/services/auth.service';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-season',
-  templateUrl: './season.component.html',
-  styleUrls: ['./season.component.scss']
+    selector: 'app-season',
+    templateUrl: './season.component.html',
+    styleUrls: ['./season.component.scss'],
+    standalone: false
 })
 export class SeasonComponent implements OnInit {
   id!: string;
@@ -18,8 +19,8 @@ export class SeasonComponent implements OnInit {
   error = '';
   isFetching = false;
   createdAt?: string;
-  selectType = new FormControl('drivers');
-  selectValue = new FormControl('all');
+  selectType = new UntypedFormControl('drivers');
+  selectValue = new UntypedFormControl('all');
   isLoggedIn = false;
   user?: User;
   modal: string = '';

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-verify-form',
-  templateUrl: './verify-form.component.html',
-  styleUrls: ['./verify-form.component.scss']
+    selector: 'app-verify-form',
+    templateUrl: './verify-form.component.html',
+    styleUrls: ['./verify-form.component.scss'],
+    standalone: false
 })
 export class VerifyFormComponent implements OnInit {
   @Input()

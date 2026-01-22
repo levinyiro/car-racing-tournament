@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Result } from 'app/models/result';
 import { Season } from 'app/models/season';
 import { SeasonService } from 'app/services/season.service';
 
 @Component({
-  selector: 'app-driver-result',
-  templateUrl: './driver-result.component.html',
-  styleUrls: ['./driver-result.component.scss']
+    selector: 'app-driver-result',
+    templateUrl: './driver-result.component.html',
+    styleUrls: ['./driver-result.component.scss'],
+    standalone: false
 })
 export class DriverResultComponent implements OnInit {
   @Input()
@@ -30,10 +31,10 @@ export class DriverResultComponent implements OnInit {
   modal: string = '';
   selectedResult?: Result;
 
-  inputTeamId = new FormControl('');
-  inputRaceId = new FormControl('');
-  inputPosition = new FormControl('');
-  inputPoint = new FormControl(0);
+  inputTeamId = new UntypedFormControl('');
+  inputRaceId = new UntypedFormControl('');
+  inputPosition = new UntypedFormControl('');
+  inputPoint = new UntypedFormControl(0);
 
   constructor(private seasonService: SeasonService) { }
 

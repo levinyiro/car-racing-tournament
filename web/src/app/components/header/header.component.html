@@ -14,14 +14,20 @@
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="statistics">Statistics</a>
         </li>
-        <li *ngIf="isLoggedIn" class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="settings">Settings</a>
-        </li>
+        @if (isLoggedIn) {
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="settings">Settings</a>
+          </li>
+        }
       </ul>
 
       <div class="d-flex justify-content-md-end mb-2 mb-sm-0">
-        <button *ngIf="!isLoggedIn" class="btn btn-primary btn-sm" routerLink="/login">Sign in</button>
-        <button *ngIf="isLoggedIn" class="btn btn-danger btn-sm" (mouseup)="logout()">Sign out</button>
+        @if (!isLoggedIn) {
+          <button class="btn btn-primary btn-sm" routerLink="/login">Sign in</button>
+        }
+        @if (isLoggedIn) {
+          <button class="btn btn-danger btn-sm" (mouseup)="logout()">Sign out</button>
+        }
       </div>
     </div>
   </div>
