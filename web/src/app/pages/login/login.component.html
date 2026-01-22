@@ -1,0 +1,37 @@
+<div class="container col-xs-12 col-lg-4 mt-5">
+  <h1>Login</h1>
+
+  <div>
+    <form (ngSubmit)="onLogin()">
+      <div class="mb-3">
+        <label for="inputUsernameEmail" class="form-label">Username or email</label>
+        <input required type="email" class="form-control" id="inputUsernameEmail" name="usernameEmail" [formControl]="inputUsernameEmail" [class.is-invalid]="!inputUsernameEmail.valid && inputUsernameEmail.touched">
+        <div class="invalid-feedback">Username or email is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="inputPassword" class="form-label">Password</label>
+        <input required type="password" class="form-control" id="inputPassword" name="password"
+          [formControl]="inputPassword" [class.is-invalid]="!inputPassword.valid && inputPassword.touched">
+        <div class="invalid-feedback">Password is required</div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+          <button class="btn btn-primary">Login</button>
+        </div>
+        <div class="col-7 text-end">
+          <button (mouseup)="registration()" class="btn btn-link">Don't you have an account?</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if (error) {
+  <app-modal type="error" [text]="error" (onCloseModalEmitter)="removeError()"></app-modal>
+}
+
+@if (isFetching) {
+  <app-modal type="loading"></app-modal>
+}

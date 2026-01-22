@@ -1,0 +1,93 @@
+<div class="row row-header my-3 d-flex align-items-center">
+  <div class="col-2">Pos</div>
+  <div [ngClass]="hasPermission && !season.isArchived ? 'col-5' : 'col-7'">Name</div>
+  <div class="col-3">Points</div>
+  @if (hasPermission && !season.isArchived) {
+    <div class="col-2">
+      <button class="btn btn-success btn-sm" (mouseup)="openModal('createTeam')">Add team</button>
+    </div>
+  }
+</div>
+@for (team of teamAll; track team; let i = $index) {
+  <div class="row row-box mb-3 d-flex align-items-center">
+    <div class="col-2 d-flex align-items-center">
+      <div class="col team-color" [ngStyle]="{'background-color': team.color}"></div>
+      {{ i + 1 }}
+    </div>
+    <div [ngClass]="hasPermission && !season.isArchived ? 'col-5' : 'col-7'">
+      {{ team.name }}
+    </div>
+    <div class="col-3">
+      {{ team.point }}
+    </div>
+    @if (hasPermission && !season.isArchived) {
+      <div class="col-2">
+        <div class="row">
+          <div class="col-sm-6 my-1">
+            <button class="btn btn-primary btn-sm me-2" (mouseup)="openModal('updateTeam', team)" title="Modify">
+              <i class="bi bi-pen"></i>
+            </button>
+          </div>
+          <div class="col-sm-6 my-1">
+            <button class="btn btn-danger btn-sm" (mouseup)="openModal('deleteTeam', team)" title="Delete">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@if (teamAll?.length === 0) {
+  <div class="d-flex justify-content-center mt-5">
+    <h2>We didn't find any team here</h2>
+  </div>
+}
+
+@if (modal === 'createTeam' || modal === 'updateTeam') {
+  <app-modal type="form">
+    <h1>{{ modal === 'createTeam' ? 'Add new' : 'Modify' }} team</h1>
+    <form #postForm="ngForm" (ngSubmit)="selectedTeam == undefined ? this.createTeam(postForm) : this.updateTeam(selectedTeam!.id, postForm)">
+      <div class="mb-3">
+        <label for="inputName" class="form-label">Name</label>
+        <input required type="text" class="form-control" id="inputName" [ngModel]="selectedTeam?.name" name="name" #name="ngModel" [class.is-invalid]="!name.valid && name.touched" [class.is-valid]="name.valid">
+        <div class="invalid-feedback">Name is required</div>
+      </div>
+      <div class="mb-3">
+        <label for="inputColor" class="form-label">Color</label>
+        <input type="color" class="form-control form-control-color" id="inputColor" name="color" #color="ngModel" [ngModel]="selectedTeam === undefined ? '#563d7c' : selectedTeam.color" title="Choose your color">
+      </div>
+      <div class="row d-flex text-center">
+        <div class="col-6">
+          <button class="btn btn-outline-danger btn-sm btn-block" (mouseup)="closeModal()">Cancel</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-primary btn-sm btn-block">
+            {{ modal === 'createTeam' ? 'Add' : 'Modify' }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </app-modal>
+}
+
+@if (modal === 'deleteTeam') {
+  <app-modal type="form">
+    <app-verify-form
+      class="text-center"
+      title='Delete "{{ selectedTeam!.name }}" team'
+      executeButtonText="Delete"
+      (executionEmitter)="deleteTeam(selectedTeam!.id)"
+      (closeModalEmitter)="closeModal()"
+    ></app-verify-form>
+  </app-modal>
+}
+
+@if (isFetching) {
+  <app-modal type="loading"></app-modal>
+}
+
+@if (error) {
+  <app-modal type="error" [text]="error" (onCloseModalEmitter)="removeError()"></app-modal>
+}

@@ -1,0 +1,188 @@
+<div class="row row-header my-3 d-flex align-items-center">
+  <div class="col-1">
+    <div class="d-none d-md-flex">
+      Position
+    </div>
+    <div class="d-md-none">
+      Pos
+    </div>
+  </div>
+  <div [ngClass]="hasPermission && !season.isArchived ? 'col-lg-1' : ''" class="col-2">
+    <div class="d-none d-sm-flex">
+      Name
+    </div>
+    <div class="d-sm-none ps-3">
+      Nm
+    </div>
+  </div>
+  <div class="col-lg-2 d-none d-lg-flex">Real Name</div>
+  <div class="col-1">
+    <div class="d-none d-xl-flex">
+      Nationality
+    </div>
+    <div class="d-xl-none">
+      Nat
+    </div>
+  </div>
+  <div class="col-lg-1 d-none d-lg-flex">Number</div>
+  <div class="col-3 col-lg-2">Team</div>
+  <div class="col-3 col-lg-2">Points</div>
+  @if (hasPermission && !season.isArchived) {
+    <div [ngClass]="hasPermission && !season.isArchived ? 'col-2' : 'col-1'">
+      <button class="btn btn-success btn-sm" (mouseup)="openModal('createDriver')">Add driver</button>
+    </div>
+  }
+</div>
+@for (driver of driverAll; track driver; let i = $index) {
+  <div class="row row-box mb-3 d-flex align-items-center">
+    <div class="col-1 d-flex align-items-center">
+      <div class="team-color" [ngStyle]="{'background-color': driver.actualTeam.color}"></div>
+      <div>{{ i + 1 }}</div>
+    </div>
+    <div [ngClass]="hasPermission && !season.isArchived ? 'col-lg-1' : ''" class="col-2">
+      <div class="d-none d-xl-flex">
+        {{ driver.name }}
+      </div>
+      <div class="d-xl-none ps-3">
+        {{ driver.name.substring(0, 3).toUpperCase() }}
+      </div>
+    </div>
+    <div class="col-lg-2 d-none d-lg-flex text-wrap">
+      {{ driver.realName }}
+    </div>
+    <div class="col-1">
+      @if (driver.nationality !== undefined) {
+        <img width="30" class="pe-1" src="https://hatscripts.github.io/circle-flags/flags/{{ driver.nationality?.alpha2 }}.svg" alt="" title="{{ driver.nationality?.name }}">
+      }
+    </div>
+    <div class="col-lg-1 d-none d-lg-flex">
+      {{ driver.number }}
+    </div>
+    <div class="text-wrap col-3 col-lg-2">
+      {{ driver.actualTeam.name }}
+    </div>
+    <div class="col-3 col-lg-2 fw-bold">
+      {{ driver.point }}
+    </div>
+    <div [ngClass]="hasPermission && !season.isArchived ? 'col-2' : 'col-1'">
+      <div class="row">
+        <div class="col-sm-4 d-flex justify-content-end">
+          <button class="btn btn-primary btn-sm my-1" (mouseup)="openStatistics(driver.name)" title="Statistics">
+            <i class="bi bi-bar-chart-fill"></i>
+          </button>
+        </div>
+        <div class="col-sm-4 d-flex justify-content-end">
+          @if (hasPermission && !season.isArchived) {
+            <button class="btn btn-primary btn-sm my-1" (mouseup)="openModal('updateDriver', driver)" title="Modify">
+              <i class="bi bi-pen"></i>
+            </button>
+          }
+        </div>
+        <div class="col-sm-4 d-flex justify-content-end">
+          @if (hasPermission && !season.isArchived) {
+            <button class="btn btn-danger btn-sm my-1" (mouseup)="openModal('deleteDriver', driver)" title="Delete">
+              <i class="bi bi-trash3"></i>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@if (driverAll?.length === 0) {
+  <div class="d-flex justify-content-center mt-5">
+    <h2>We didn't find any driver here</h2>
+  </div>
+}
+
+@if (modal === 'createDriver' || modal === 'updateDriver') {
+  <app-modal type="form">
+    <h1>{{ modal === 'createDriver' ? 'Add new' : 'Modify' }} driver</h1>
+    <form (ngSubmit)="selectedDriver == undefined ? this.createDriver() : this.updateDriver(selectedDriver!.id)">
+      <div class="mb-3">
+        <label for="inputName" class="form-label">Name</label>
+        <input required type="text" class="form-control" id="inputName" [formControl]="inputName" name="name" [class.is-invalid]="!inputName.valid && inputName.touched">
+        <div class="invalid-feedback">Name is required</div>
+      </div>
+      <div class="mb-3">
+        <label for="inputRealName" class="form-label">Real Name</label>
+        <input type="text" class="form-control" id="inputRealName" [formControl]="inputRealName" name="realName">
+      </div>
+      <div class="mb-3">
+        <label for="inputNationality" class="form-label">Nationality</label>
+        <div class="row d-flex align-items-center">
+          <div class="col-1">
+            @if (inputNationality.value !== undefined) {
+              <img width="30" src="https://hatscripts.github.io/circle-flags/flags/{{ actualNationality() }}.svg" alt="">
+            }
+          </div>
+          <div class="col-11">
+            <select name="nationality" id="inputNationality" class="form-select" [value]="selectedDriver?.nationality?.alpha2 === undefined ? null : selectedDriver?.nationality?.alpha2" [formControl]="inputNationality">
+              <option [ngValue]="null">None</option>
+              @for (option of nationalities; track option) {
+                <option [value]="option.alpha2">
+                  {{ option.name }}
+                </option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="inputNumber" class="form-label">Number</label>
+        <input type="number" required min="1" max="99" class="form-control" id="inputNumber" name="number" [formControl]="inputNumber" [class.is-invalid]="!inputNumber.valid && inputNumber.touched">
+        <div class="invalid-feedback">Number is required</div>
+      </div>
+      <div class="mb-3">
+        <label for="inputActualTeamId" class="form-label">Actual Team</label>
+        <div class="row d-flex align-items-center">
+          <div class="col-1">
+            <div class="team-color" [ngStyle]="{'background-color': actualTeamColor()}"></div>
+          </div>
+          <div class="col-11">
+            <select name="actualTeamId" id="inputActualTeamId" class="form-select" [value]="selectedDriver?.actualTeam?.id === undefined ? null : selectedDriver?.actualTeam?.id" [formControl]="inputActualTeamId">
+              <option [ngValue]="null">None</option>
+              @for (option of season?.teams; track option) {
+                <option [value]="option.id">
+                  {{ option.name }}
+                </option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex text-center">
+        <div class="col-6">
+          <button class="btn btn-outline-danger btn-sm btn-block" (mouseup)="closeModal()">Cancel</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-primary btn-sm btn-block">
+            {{ modal === 'createDriver' ? 'Add' : 'Modify' }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </app-modal>
+}
+
+@if (modal === 'deleteDriver') {
+  <app-modal type="form">
+    <app-verify-form
+      class="text-center"
+      title='Delete "{{ selectedDriver!.name }}" driver'
+      subtext="It will remove all results of the driver!"
+      executeButtonText="Delete"
+      (executionEmitter)="deleteDriver(selectedDriver!.id)"
+      (closeModalEmitter)="closeModal()"
+    ></app-verify-form>
+  </app-modal>
+}
+
+@if (isFetching) {
+  <app-modal type="loading"></app-modal>
+}
+
+@if (error) {
+  <app-modal type="error" [text]="error" (onCloseModalEmitter)="removeError()"></app-modal>
+}

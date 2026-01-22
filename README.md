@@ -18,6 +18,12 @@ sh ./run.sh
 dotnet run
 ```
 
+### Test backend
+
+```sh
+dotnet test
+```
+
 ### Run frontend
 
 If run it for the first time, you have to install npm packages

@@ -1,0 +1,73 @@
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    background-image: url(assets/background.svg);
+    background-position: top;
+    background-repeat: repeat-y;
+    background-size: cover;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.gold-tag {
+    background-color: #ffb70040;
+    border: 2px solid #ffb700;
+    padding: 1.5px;
+    color: #ff9500;
+    border-radius: 5px;
+    font-size: small;
+}
+
+h2 {
+    font-size: x-large;
+}
+
+.row-box {
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 10px;
+    font-size: small;
+    backdrop-filter: blur(5px) contrast(1.4);
+}
+
+.row-header {
+    padding: 10px;
+    color: gray;
+    font-size: small;
+}
+
+.team-color {
+    height: 2rem;
+    min-width: 0.7rem;
+    max-width: 0.7rem;
+    border-radius: 2px;
+    margin-right: 10px;
+}
+
+.dsq-tag {
+    background-color: black;
+    padding: 4px 5px;
+    color: white;
+    border-radius: 4px;
+}
+
+$pink: #ff5c8a;
+$pink-hover: #ff0a54;
+
+.favorite {
+    transition: 0.2s;
+}
+
+.favorite:hover {
+    transition: 0.2s;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.text-pink {
+    color: $pink-hover;
+    font-size: larger;
+}
